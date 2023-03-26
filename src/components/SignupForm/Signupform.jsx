@@ -17,13 +17,20 @@ const Signupform = () => {
     };
 
     const formikValidationValues = Yup.object({
-        name: Yup.string().required("Please Enter Your Name"),
+        name: Yup.string()
+            .required("Please Enter Your Name")
+            .min(6, "Name must be at least 6 characters"),
         email: Yup.string()
             .email("Please Enter valid E-Mail Address")
             .required("Please Enter Your E-Mail Address"),
-        phone: Yup.string().required("Please Enter Your Phone Number"),
+        phone: Yup.string()
+            .required("Please Enter Your Phone Number")
+            // .matches(/^[0-9]{11}$/, "Invalid Phone Number")
+            .nullable(),
         password: Yup.string().required("Please Enter Your Password"),
-        confirmPassword: Yup.string().required("Please Confirm Your Password"),
+        confirmPassword: Yup.string()
+            .oneOf([Yup.ref("password"), null], "Password not match")
+            .required("Please Confirm Your Password"),
     });
 
     const formik = useFormik({

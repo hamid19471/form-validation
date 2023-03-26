@@ -4,33 +4,50 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 const Signupform = () => {
-    const formik = useFormik({
-        initialValues: {
-            name: "",
-            email: "",
-            phone: "",
-            password: "",
-            confirmPassword: "",
-        },
+    const formikInitialValues = {
+        name: "",
+        email: "",
+        phone: "",
+        password: "",
+        confirmPassword: "",
+    };
+
+    const formikOnSubmit = (values) => {
+        console.log(values);
+    };
+
+    const formikValidationValues = Yup.object({
+        name: Yup.string().required("Please Enter Your Name"),
+        email: Yup.string()
+            .email("Please Enter valid E-Mail Address")
+            .required("Please Enter Your E-Mail Address"),
+        phone: Yup.string().required("Please Enter Your Phone Number"),
+        password: Yup.string().required("Please Enter Your Password"),
+        confirmPassword: Yup.string().required("Please Confirm Your Password"),
     });
 
-    const handleFormSubmit = (event) => {
-        event.preventDefault();
-        console.log(formik.values);
-    };
+    const formik = useFormik({
+        initialValues: formikInitialValues,
+        onSubmit: formikOnSubmit,
+        validationSchema: formikValidationValues,
+    });
 
     return (
         <div className="container">
-            <form className="form" onSubmit={handleFormSubmit}>
+            <form className="form" onSubmit={formik.handleSubmit}>
                 <div className="form__field">
                     <label htmlFor="name">Full Name</label>
                     <input
                         type="text"
                         name="name"
                         placeholder="Enter Full Name"
-                        onChange={formik.handleChange}
-                        value={formik.values.name}
+                        {...formik.getFieldProps("name")}
                     />
+                    {formik.errors.name && formik.touched.name && (
+                        <span className="form__errors">
+                            {formik.errors.name}
+                        </span>
+                    )}
                 </div>
                 <div className="form__field">
                     <label htmlFor="email">Email</label>
@@ -38,9 +55,13 @@ const Signupform = () => {
                         type="email"
                         name="email"
                         placeholder="Enter Email"
-                        onChange={formik.handleChange}
-                        value={formik.values.email}
+                        {...formik.getFieldProps("email")}
                     />
+                    {formik.errors.email && formik.touched.email && (
+                        <span className="form__errors">
+                            {formik.errors.email}
+                        </span>
+                    )}
                 </div>
                 <div className="form__field">
                     <label htmlFor="phone">Phone Number</label>
@@ -48,9 +69,13 @@ const Signupform = () => {
                         type="text"
                         name="phone"
                         placeholder="Enter Phone Number"
-                        onChange={formik.handleChange}
-                        value={formik.values.phone}
+                        {...formik.getFieldProps("phone")}
                     />
+                    {formik.errors.phone && formik.touched.phone && (
+                        <span className="form__errors">
+                            {formik.errors.phone}
+                        </span>
+                    )}
                 </div>
                 <div className="form__field">
                     <label htmlFor="password">Password</label>
@@ -58,9 +83,13 @@ const Signupform = () => {
                         type="password"
                         name="password"
                         placeholder="Enter Password"
-                        onChange={formik.handleChange}
-                        value={formik.values.password}
+                        {...formik.getFieldProps("password")}
                     />
+                    {formik.errors.password && formik.touched.password && (
+                        <span className="form__errors">
+                            {formik.errors.password}
+                        </span>
+                    )}
                 </div>
                 <div className="form__field">
                     <label htmlFor="confirmPassword">Confirm Password</label>
@@ -68,9 +97,14 @@ const Signupform = () => {
                         type="password"
                         name="confirmPassword"
                         placeholder="Confirm Password"
-                        onChange={formik.handleChange}
-                        value={formik.values.confirmPassword}
+                        {...formik.getFieldProps("confirmPassword")}
                     />
+                    {formik.errors.confirmPassword &&
+                        formik.touched.confirmPassword && (
+                            <span className="form__errors">
+                                {formik.errors.confirmPassword}
+                            </span>
+                        )}
                 </div>
                 <div>
                     <button type="submit">Sign Up</button>

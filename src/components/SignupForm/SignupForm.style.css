@@ -10,6 +10,9 @@
 
 .form {
     width: 100%;
+    flex-direction: column;
+    display: flex;
+    gap: 10px;
 }
 
 .form__field {
@@ -23,7 +26,6 @@
     padding: 0.5rem;
     border-radius: 0.5rem;
     border: none;
-    margin-bottom: 1rem;
     width: 100%;
     color: #fff;
     font-family: "Oswald", Courier, monospace;
@@ -45,4 +47,13 @@ input::placeholder {
 
 .form__btn {
     width: 100%;
+}
+
+.form__errors {
+    padding: 0;
+    color: red;
+    font-family: "Oswald", Courier, monospace;
+    font-weight: bold;
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
 }

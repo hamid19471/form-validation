@@ -27,7 +27,10 @@ const Signupform = () => {
             .required("Please Enter Your Phone Number")
             // .matches(/^[0-9]{11}$/, "Invalid Phone Number")
             .nullable(),
-        password: Yup.string().required("Please Enter Your Password"),
+        password: Yup.string().required("Please Enter Your Password").matches(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+            "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
+          ),,
         confirmPassword: Yup.string()
             .oneOf([Yup.ref("password"), null], "Password not match")
             .required("Please Confirm Your Password"),

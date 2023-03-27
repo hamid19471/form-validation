@@ -57,3 +57,14 @@ input::placeholder {
     font-size: 0.8rem;
     margin-bottom: 1rem;
 }
+
+.form__radio {
+    display: flex;
+    align-items: center;
+}
+.radio {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}

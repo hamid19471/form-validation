@@ -1,9 +1,20 @@
 import "./SignupForm.style.css";
-import React from "react";
+import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-
+import axios from "axios";
+import Input from "../Input/Input";
 const Signupform = () => {
+    const [value, setValue] = React.useState(null);
+    useEffect(() => {
+        const getUserData = async () => {
+            const { data } = await axios.get("http://localhost:3001/users/1");
+            setValue(data);
+            console.log(data);
+        };
+        getUserData();
+    }, []);
+
     const formikInitialValues = {
         name: "",
         email: "",
@@ -26,7 +37,6 @@ const Signupform = () => {
             .required("Please Enter Your E-Mail Address"),
         phone: Yup.string()
             .required("Please Enter Your Phone Number")
-            // .matches(/^[0-9]{11}$/, "Invalid Phone Number")
             .nullable(),
         password: Yup.string()
             .required("Please Enter Your Password")
@@ -41,29 +51,24 @@ const Signupform = () => {
     });
 
     const formik = useFormik({
-        initialValues: formikInitialValues,
+        initialValues: value || formikInitialValues,
         onSubmit: formikOnSubmit,
         validationSchema: formikValidationValues,
         validateOnMount: true,
+        enableReinitialize: true,
     });
 
     return (
         <div className="container">
             <form className="form" onSubmit={formik.handleSubmit}>
                 <div className="form__field">
-                    <label htmlFor="name">Full Name</label>
-                    <input
-                        type="text"
-                        id="name"
+                    <Input
+                        label="Name"
                         name="name"
+                        formik={formik}
+                        id="name"
                         placeholder="Enter Full Name"
-                        {...formik.getFieldProps("name")}
                     />
-                    {formik.errors.name && formik.touched.name && (
-                        <span className="form__errors">
-                            {formik.errors.name}
-                        </span>
-                    )}
                     <div className="radio">
                         <div className="form__radio">
                             <input
@@ -89,67 +94,36 @@ const Signupform = () => {
                         </div>
                     </div>
                 </div>
-                <div className="form__field">
-                    <label htmlFor="email">Email</label>
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        placeholder="Enter Email"
-                        {...formik.getFieldProps("email")}
-                    />
-                    {formik.errors.email && formik.touched.email && (
-                        <span className="form__errors">
-                            {formik.errors.email}
-                        </span>
-                    )}
-                </div>
-                <div className="form__field">
-                    <label htmlFor="phone">Phone Number</label>
-                    <input
-                        type="text"
-                        id="phone"
-                        name="phone"
-                        placeholder="Enter Phone Number"
-                        {...formik.getFieldProps("phone")}
-                    />
-                    {formik.errors.phone && formik.touched.phone && (
-                        <span className="form__errors">
-                            {formik.errors.phone}
-                        </span>
-                    )}
-                </div>
-                <div className="form__field">
-                    <label htmlFor="password">Password</label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        placeholder="Enter Password"
-                        {...formik.getFieldProps("password")}
-                    />
-                    {formik.errors.password && formik.touched.password && (
-                        <span className="form__errors">
-                            {formik.errors.password}
-                        </span>
-                    )}
-                </div>
-                <div className="form__field">
-                    <label htmlFor="confirmPassword">Confirm Password</label>
-                    <input
-                        type="password"
-                        id="confirmPassword"
-                        name="confirmPassword"
-                        placeholder="Confirm Password"
-                        {...formik.getFieldProps("confirmPassword")}
-                    />
-                    {formik.errors.confirmPassword &&
-                        formik.touched.confirmPassword && (
-                            <span className="form__errors">
-                                {formik.errors.confirmPassword}
-                            </span>
-                        )}
-                </div>
+                <Input
+                    label="E-Mail"
+                    name="email"
+                    id="email"
+                    formik={formik}
+                    placeholder="Enter Your E-Mail"
+                />
+                <Input
+                    label="Phone Number"
+                    name="phone"
+                    id="phone"
+                    formik={formik}
+                    placeholder="Enter Your Phone Number"
+                />
+                <Input
+                    label="Password"
+                    name="password"
+                    id="password"
+                    formik={formik}
+                    type="password"
+                    placeholder="Enter Password"
+                />
+                <Input
+                    label="Confirm Password"
+                    name="confirmPassword"
+                    id="confirmPassword"
+                    formik={formik}
+                    type="password"
+                    placeholder="Enter Password Again"
+                />
                 <div>
                     <button type="submit" disabled={!formik.isValid}>
                         Sign Up

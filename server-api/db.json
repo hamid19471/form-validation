@@ -1,0 +1,22 @@
+{
+    "users": [
+        {
+            "id": 1,
+            "name": "Hamid Reza",
+            "email": "hamid@gmail.com",
+            "phone": "09125180421",
+            "password": "Hamid@19471",
+            "confirmPassword": "Hamid@19471",
+            "gender": "0"
+        },
+        {
+            "id": 2,
+            "name": "Ali",
+            "email": "ali@gmail.com",
+            "phone": "091222334455",
+            "password": "Alikhan@19471",
+            "confirmPassword": "Alikhan@19471",
+            "gender": "0"
+        }
+    ]
+}
